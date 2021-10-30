@@ -1,0 +1,25 @@
+.element-list {
+    width: 880px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+    grid-gap: 20px 17px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+@media screen and (max-width: 1280px) {
+    .element-list {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    .element-list {
+        max-width: calc(100% - 2*19px);
+        grid-template-columns: 282px;
+        grid-template-rows: repeat(6, minmax(282px, 1fr));
+        gap: 20px;
+    }
+}
