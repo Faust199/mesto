@@ -8,20 +8,23 @@ const profileFormInputDescription = document.getElementById("input_description")
 const nameTitle = document.querySelector('.profile__name');
 const descriptionParagraph = document.querySelector('.profile__description');
 
-
-function openOrCloseProfilePopup() {
-    profilePopup.classList.toggle('popup_is-open');
+function openPopup() {
     profileFormInputName.value = nameTitle.textContent;
     profileFormInputDescription.value = descriptionParagraph.textContent;
+    profilePopup.classList.add('popup_is-open');
+}
+
+function closePopup() {
+    profilePopup.classList.remove('popup_is-open');
 }
 
 function submitProfileForm(event) {
     event.preventDefault();
     nameTitle.textContent = profileFormInputName.value;
     descriptionParagraph.textContent = profileFormInputDescription.value;
-    openOrCloseProfilePopup();
+    closePopup();
 }
 
-profileEditButton.addEventListener('click', openOrCloseProfilePopup);
-profileCloseButton.addEventListener('click', openOrCloseProfilePopup);
+profileEditButton.addEventListener('click', openPopup);
+profileCloseButton.addEventListener('click', closePopup);
 profileForm.addEventListener('submit', submitProfileForm);
