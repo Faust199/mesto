@@ -1,4 +1,4 @@
-.element-list__element-box {
+.elements__element-box {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
