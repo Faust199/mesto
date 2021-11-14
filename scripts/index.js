@@ -1,10 +1,12 @@
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.getElementById('popup-profile');
+const cardPopup = document.getElementById('popup-card');
+const cardForm = cardPopup.querySelector('.popup__form');
 const profileCloseButton = document.querySelector('.popup__close-button');
-const profileForm = document.querySelector('.popup__form');
+const profileForm = profilePopup.querySelector('.popup__form');
 const profileFormInputName = document.getElementById("input_name");
 const profileFormInputDescription = document.getElementById("input_description");
-
+const addCardOpenButton = document.querySelector('.profile__add-button');
 const nameTitle = document.querySelector('.profile__name');
 const descriptionParagraph = document.querySelector('.profile__description');
 
@@ -92,14 +94,6 @@ function closePopup(popup) {
     popup.classList.remove('popup_is-open');
 }
 
-
-function submitProfileForm(event) {
-    event.preventDefault();
-    nameTitle.textContent = profileFormInputName.value;
-    descriptionParagraph.textContent = profileFormInputDescription.value;
-    closePopup(profilePopup);
-}
-
 profileEditButton.addEventListener('click', ()=> {
     profileFormInputName.value = nameTitle.textContent;
     profileFormInputDescription.value = descriptionParagraph.textContent;
@@ -110,4 +104,34 @@ profileCloseButton.addEventListener('click', ()=>{
     closePopup(profilePopup);
 });
 
-profileForm.addEventListener('submit', submitProfileForm);
+addCardOpenButton.addEventListener('click',()=> {
+    openPopup(cardPopup);
+});
+
+profileForm.addEventListener('submit', (event)=> {
+    event.preventDefault();
+
+    nameTitle.textContent = profileFormInputName.value;
+    descriptionParagraph.textContent = profileFormInputDescription.value;
+
+    closePopup(profilePopup);
+});
+
+cardForm.addEventListener('submit',(event)=> {
+    event.preventDefault();
+
+    const nameInput = document.getElementById('input_title');
+    const linkInput = document.getElementById('input_link');
+
+    const item = {
+                    name: nameInput.value,
+                    link: linkInput.value
+    }
+
+    setCardToHtml(item);
+
+    nameInput.value = "";
+    linkInput.value = "";
+
+    closePopup(cardPopup);
+});
