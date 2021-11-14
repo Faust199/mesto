@@ -2,7 +2,8 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.getElementById('popup-profile');
 const cardPopup = document.getElementById('popup-card');
 const cardForm = cardPopup.querySelector('.popup__form');
-const profileCloseButton = document.querySelector('.popup__close-button');
+const profileCloseButton = document.getElementById('close-button-profile');
+const cardCloseButton = document.getElementById('close-button-card');
 const profileForm = profilePopup.querySelector('.popup__form');
 const profileFormInputName = document.getElementById("input_name");
 const profileFormInputDescription = document.getElementById("input_description");
@@ -46,6 +47,12 @@ function setInitialCards() {
 }
 
 setInitialCards();
+
+window.addEventListener('load', ()=> {
+    document.querySelectorAll('.popup').forEach((item)=> {
+        item.classList.add('popup_transition');
+    });
+});
 
 function setCardToHtml(item) {
     const card = document.getElementById('element-card-li').content.cloneNode(true);
@@ -102,6 +109,10 @@ profileEditButton.addEventListener('click', ()=> {
 
 profileCloseButton.addEventListener('click', ()=>{
     closePopup(profilePopup);
+});
+
+cardCloseButton.addEventListener('click', ()=>{
+    closePopup(cardPopup);
 });
 
 addCardOpenButton.addEventListener('click',()=> {
