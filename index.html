@@ -30,51 +30,8 @@
 
         <section class="elements">
             <ul class="elements__element-list">
-                <li class="elements__element">
-                    <img class="elements__element-image" src="images/dombai.jpg" alt="Картинка">
-                    <div class="elements__element-box">
-                        <h2 class="elements__element-title">Домбай</h2>
-                        <button class="elements__element-like" type="button" aria-label="Like"></button>
-                    </div>
-                </li>
-                <li class="elements__element">
-                    <img class="elements__element-image" src="images/elbrus.jpg" alt="Картинка">
-                    <div class="elements__element-box">
-                        <h2 class="elements__element-title">Эльбрус</h2>
-                        <button class="elements__element-like" type="button" aria-label="Like"></button>
-                    </div>
-                </li>
-                <li class="elements__element">
-                    <img class="elements__element-image" src="images/karachaevsk.jpg" alt="Картинка">
-                    <div class="elements__element-box">
-                        <h2 class="elements__element-title">Карачаевск</h2>
-                        <button class="elements__element-like" type="button" aria-label="Like"></button>
-                    </div>
-                </li>
-                <li class="elements__element">
-                    <img class="elements__element-image" src="images/london.jpg" alt="Картинка">
-                    <div class="elements__element-box">
-                        <h2 class="elements__element-title">Лондон</h2>
-                        <button class="elements__element-like" type="button" aria-label="Like"></button>
-                    </div>
-                </li>
-                <li class="elements__element">
-                    <img class="elements__element-image" src="images/new-orleans.jpg" alt="Картинка">
-                    <div class="elements__element-box">
-                        <h2 class="elements__element-title">Новый Орлеан</h2>
-                        <button class="elements__element-like" type="button" aria-label="Like"></button>
-                    </div>
-                </li>
-                <li class="elements__element">
-                    <img class="elements__element-image" src="images/stockholm.jpg" alt="Картинка">
-                    <div class="elements__element-box">
-                        <h2 class="elements__element-title">Стокгольм</h2>
-                        <button class="elements__element-like" type="button" aria-label="Like"></button>
-                    </div>
-                </li>
             </ul>
         </section>
-
 
     </main>
 
@@ -82,7 +39,7 @@
         <p class="footer__copyright"> &copy; 2021. Nikita Polezhaev</p>
     </footer>
 
-    <div class="popup">
+    <div class="popup" id="popup-profile">
         <div class="popup__box">
             <button class="popup__close-button" type="button" aria-label="Close"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
@@ -93,6 +50,27 @@
             </form>
         </div>
     </div>
+
+    <div class="popup popup_type-opacity" id="popup-image">
+        <div class="popup__box popup__box_image">
+            <button class="popup__close-button" type="button" id="close-button-image"></button>
+            <figure class="popup__figure">
+                <img class="popup__image" src="#" alt="">
+                <h2 class="popup__caption"></h2>
+            </figure>
+        </div>
+    </div>
+
+    <template id="element-card-li">
+        <li class="elements__element">
+            <img class="elements__element-image" src="#" alt="#">
+            <div class="elements__element-box">
+                <h2 class="elements__element-title"></h2>
+                <button class="elements__element-like" type="button" aria-label="Like"></button>
+                <button class="elements__element-delete" type="button"></button>
+            </div>
+        </li>
+    </template>
 
     <script src="scripts/index.js"></script>
 
