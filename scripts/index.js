@@ -10,54 +10,47 @@ const profileFormInputDescription = document.getElementById("input_description")
 const addCardOpenButton = document.querySelector('.profile__add-button');
 const nameTitle = document.querySelector('.profile__name');
 const descriptionParagraph = document.querySelector('.profile__description');
-
+const imageCloseButton = document.getElementById('close-button-image');
 const cardList = document.querySelector('.elements__element-list');
+const cardImagePopup = document.getElementById('popup-image');
 
-function setInitialCards() {
-    const initialCards = [
-        {
-            name: 'Архыз',
-            link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-        },
-        {
-            name: 'Челябинская область',
-            link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-        },
-        {
-            name: 'Иваново',
-            link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-        },
-        {
-            name: 'Камчатка',
-            link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-        },
-        {
-            name: 'Холмогорский район',
-            link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-        },
-        {
-            name: 'Байкал',
-            link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-        }
-    ];
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
 
+function setInitialCards(initialCards) {
     initialCards.forEach((item)=> {
-        setCardToHtml(item);
+        cardList.prepend(renderCard(item));
     });
 }
 
-setInitialCards();
+setInitialCards(initialCards);
 
-window.addEventListener('load', ()=> {
-    document.querySelectorAll('.popup').forEach((item)=> {
-        item.classList.add('popup_transition');
-    });
-});
-
-function setCardToHtml(item) {
+function renderCard(item) {
     const card = document.getElementById('element-card-li').content.cloneNode(true);
-
-    const cardImagePopup = document.getElementById('popup-image');
 
     const cardImage = card.querySelector(".elements__element-image");
     cardImage.src = item.link;
@@ -65,10 +58,10 @@ function setCardToHtml(item) {
     cardImage.addEventListener('click', ()=> {
         openPopup(cardImagePopup);
         const popupContentImage = cardImagePopup.querySelector('.popup__image');
-        popupContentImage.src = cardImage.closest('.elements__element-image').src;
-        popupContentImage.alt = cardImage.closest('.elements__element-image').alt;
-        const  popupTitle = document.querySelector('.popup__caption');
-        popupTitle.innerHTML = item.name;
+        popupContentImage.src = item.link;
+        popupContentImage.alt = item.name;
+        const  popupTitle = cardImagePopup.querySelector('.popup__caption');
+        popupTitle.textContent = item.name;
     });
 
     const cardTitle = card.querySelector(".elements__element-title");
@@ -85,12 +78,7 @@ function setCardToHtml(item) {
         cardLikeButton.classList.toggle('elements__element-like_active');
     });
 
-    const imageCloseButton = document.getElementById('close-button-image');
-    imageCloseButton.addEventListener('click', ()=>{
-        closePopup(cardImagePopup);
-    });
-
-    cardList.appendChild(card);
+    return card;
 }
 
 function openPopup(popup) {
@@ -137,12 +125,16 @@ cardForm.addEventListener('submit',(event)=> {
     const item = {
                     name: nameInput.value,
                     link: linkInput.value
-    }
+    };
 
-    setCardToHtml(item);
+    cardList.prepend(renderCard(item));
 
     nameInput.value = "";
     linkInput.value = "";
 
     closePopup(cardPopup);
+});
+
+imageCloseButton.addEventListener('click', ()=>{
+    closePopup(cardImagePopup);
 });
