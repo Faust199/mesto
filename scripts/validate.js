@@ -1,11 +1,11 @@
 const showInputError = (config, form, input) => {
-    const spanError = form.querySelector(`.${input.id}_error`);
+    const spanError = form.querySelector(`.${input.id}-error`);
     input.classList.add(config.inputErrorClass);
     spanError.textContent = input.validationMessage;
 }
 
 const hideInputError = (config, form, input) => {
-    const spanError = form.querySelector(`.${input.id}_error`);
+    const spanError = form.querySelector(`.${input.id}-error`);
     input.classList.remove(config.inputErrorClass);
     spanError.textContent = '';
 }
