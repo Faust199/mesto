@@ -82,8 +82,8 @@ function renderCard(item) {
 }
 
 function closePopupByEsc(event) {
-    const popup = document.querySelector('.popup_is-open');
     if (event.key === "Escape") {
+        const popup = document.querySelector('.popup_is-open');
         closePopup(popup);
     }
 }

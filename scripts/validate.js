@@ -48,9 +48,9 @@ function enableValidation(config) {
         const submitButton = form.querySelector(config.submitButtonSelector);
         form.addEventListener('submit', (event) => {
             event.preventDefault();
-            if (form.id !== "form_profile") {
-                form.reset();
-            }
+            // if (form.id !== "form_profile") {
+            //     form.reset();
+            // }
             toggleButtonState(config, form, submitButton);
         });
         setInputsEventListeners(config, form, submitButton);
