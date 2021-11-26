@@ -89,6 +89,12 @@ function closePopup(popup) {
     popup.classList.remove('popup_is-open');
 }
 
+function popupOverlayClickHandler(event) {
+    if (event.target.classList.contains('popup')) {
+        closePopup(event.target)
+    }
+}
+
 profileEditButton.addEventListener('click', ()=> {
     profileFormInputName.value = nameTitle.textContent;
     profileFormInputDescription.value = descriptionParagraph.textContent;
@@ -138,3 +144,9 @@ cardForm.addEventListener('submit',(event)=> {
 imageCloseButton.addEventListener('click', ()=>{
     closePopup(cardImagePopup);
 });
+
+profilePopup.addEventListener('click', popupOverlayClickHandler);
+
+cardPopup.addEventListener('click', popupOverlayClickHandler);
+
+cardImagePopup.addEventListener('click', popupOverlayClickHandler);
