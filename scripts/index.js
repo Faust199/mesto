@@ -81,12 +81,21 @@ function renderCard(item) {
     return card;
 }
 
+function closePopupByEsc(event) {
+    const popup = document.querySelector('.popup_is-open');
+    if (event.key === "Escape") {
+        closePopup(popup);
+    }
+}
+
 function openPopup(popup) {
     popup.classList.add('popup_is-open');
+    document.addEventListener('keydown', closePopupByEsc);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_is-open');
+    document.removeEventListener('keydown', closePopupByEsc)
 }
 
 function popupOverlayClickHandler(event) {
