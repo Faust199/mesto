@@ -5,8 +5,8 @@ const cardForm = cardPopup.querySelector('.popup__form');
 const profileCloseButton = document.getElementById('close-button-profile');
 const cardCloseButton = document.getElementById('close-button-card');
 const profileForm = profilePopup.querySelector('.popup__form');
-const profileFormInputName = document.getElementById("popup__input_name");
-const profileFormInputDescription = document.getElementById("popup__input_description");
+const profileFormInputName = document.getElementById("profile-name");
+const profileFormInputDescription = document.getElementById("profile-description");
 const addCardOpenButton = document.querySelector('.profile__add-button');
 const nameTitle = document.querySelector('.profile__name');
 const descriptionParagraph = document.querySelector('.profile__description');
@@ -134,8 +134,8 @@ profileForm.addEventListener('submit', (event)=> {
 cardForm.addEventListener('submit',(event)=> {
     event.preventDefault();
 
-    const nameInput = document.getElementById('popup__input_title');
-    const linkInput = document.getElementById('popup__input_link');
+    const nameInput = document.getElementById('card-title');
+    const linkInput = document.getElementById('card-image-link');
 
     const item = {
                     name: nameInput.value,
