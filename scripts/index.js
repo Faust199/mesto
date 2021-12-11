@@ -1,3 +1,5 @@
+import Card from "./card.js"
+
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.getElementById('popup-profile');
 const cardPopup = document.getElementById('popup-card');
@@ -43,43 +45,13 @@ const initialCards = [
 
 function setInitialCards(initialCards) {
     initialCards.forEach((item)=> {
-        cardList.prepend(renderCard(item));
+        const card = new Card(item, 'element-card-li', cardImagePopup);
+        const cardElement = card.generateCard();
+        cardList.prepend(cardElement);
     });
 }
 
 setInitialCards(initialCards);
-
-function renderCard(item) {
-    const card = document.getElementById('element-card-li').content.cloneNode(true);
-
-    const cardImage = card.querySelector(".elements__element-image");
-    cardImage.src = item.link;
-    cardImage.alt = item.name;
-    cardImage.addEventListener('click', ()=> {
-        openPopup(cardImagePopup);
-        const popupContentImage = cardImagePopup.querySelector('.popup__image');
-        popupContentImage.src = item.link;
-        popupContentImage.alt = item.name;
-        const  popupTitle = cardImagePopup.querySelector('.popup__caption');
-        popupTitle.textContent = item.name;
-    });
-
-    const cardTitle = card.querySelector(".elements__element-title");
-    cardTitle.textContent = item.name;
-
-    const cardDeleteButton = card.querySelector(".elements__element-delete");
-    cardDeleteButton.addEventListener('click', ()=> {
-        const deletedCard = cardDeleteButton.closest('.elements__element');
-        deletedCard.remove();
-    });
-
-    const cardLikeButton = card.querySelector(".elements__element-like");
-    cardLikeButton.addEventListener('click', ()=> {
-        cardLikeButton.classList.toggle('elements__element-like_active');
-    });
-
-    return card;
-}
 
 function closePopupByEsc(event) {
     if (event.key === "Escape") {
@@ -142,7 +114,9 @@ cardForm.addEventListener('submit',(event)=> {
                     link: linkInput.value
     };
 
-    cardList.prepend(renderCard(item));
+    const card = new Card(item, 'element-card-li', cardImagePopup, imageCloseButton);
+    const cardElement = card.generateCard();
+    cardList.prepend(cardElement);
 
     nameInput.value = "";
     linkInput.value = "";
