@@ -17,10 +17,12 @@ const descriptionParagraph = document.querySelector('.profile__description');
 const imageCloseButton = document.getElementById('close-button-image');
 const cardList = document.querySelector('.elements__element-list');
 const cardImagePopup = document.getElementById('popup-image');
+const nameInput = document.getElementById('card-title');
+const linkInput = document.getElementById('card-image-link');
 
 function setInitialCards(initialCards) {
     initialCards.forEach((item)=> {
-        const card = new Card(item, 'element-card-li', cardImagePopup);
+        const card = new Card(item, document.getElementById('element-card-li').content.querySelector('.elements__element'), cardImagePopup, openPopup);
         const cardElement = card.generateCard();
         cardList.prepend(cardElement);
     });
@@ -91,20 +93,16 @@ profileForm.addEventListener('submit', (event)=> {
 cardForm.addEventListener('submit',(event)=> {
     event.preventDefault();
 
-    const nameInput = document.getElementById('card-title');
-    const linkInput = document.getElementById('card-image-link');
-
     const item = {
                     name: nameInput.value,
                     link: linkInput.value
     };
 
-    const card = new Card(item, 'element-card-li', cardImagePopup, imageCloseButton);
+    const card = new Card(item, document.getElementById('element-card-li').content.querySelector('.elements__element'), cardImagePopup, openPopup);
     const cardElement = card.generateCard();
     cardList.prepend(cardElement);
 
-    nameInput.value = "";
-    linkInput.value = "";
+    cardForm.reset();
 
     closePopup(cardPopup);
 });

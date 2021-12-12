@@ -24,8 +24,6 @@ export default class FormValidator {
         } else {
             this._hideInputError(input);
         }
-
-        this._toggleButtonState();
     }
 
     _setInputsEventListeners() {
