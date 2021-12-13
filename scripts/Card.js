@@ -1,15 +1,15 @@
 export default class Card {
 
-    constructor(data, cardTemplate, cardImagePopup, openPopup) {
+    constructor(data, cardTemplateSelector, cardImagePopup, openPopup) {
         this._link = data.link;
         this._name = data.name;
-        this._cardTemplate = cardTemplate;
+        this._cardTemplateSelector = cardTemplateSelector;
         this._cardImagePopup = cardImagePopup;
         this._openPopup = openPopup;
     }
 
     _getTemplate() {
-        const cardElement = this._cardTemplate.content.querySelector('.elements__element').cloneNode(true);
+        const cardElement = document.getElementById(this._cardTemplateSelector).content.querySelector('.elements__element').cloneNode(true);
         this._image = cardElement.querySelector(".elements__element-image");
         this._deleteButton = cardElement.querySelector(".elements__element-delete");
         this._likeButton = cardElement.querySelector(".elements__element-like");

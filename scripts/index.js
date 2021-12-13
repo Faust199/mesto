@@ -27,7 +27,7 @@ function setInitialCards(initialCards) {
 }
 
 function generateCard(item) {
-    const card = new Card(item, document.getElementById('element-card-li'), cardImagePopup, openPopup);
+    const card = new Card(item, 'element-card-li', cardImagePopup, openPopup);
     return card.generateCard();
 }
 
