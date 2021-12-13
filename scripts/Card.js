@@ -1,19 +1,18 @@
 export default class Card {
 
-    constructor(data, cardElementLi, cardImagePopup, openPopup) {
+    constructor(data, cardTemplate, cardImagePopup, openPopup) {
         this._link = data.link;
         this._name = data.name;
-        this._cardElementLi = cardElementLi;
+        this._cardTemplate = cardTemplate;
         this._cardImagePopup = cardImagePopup;
-        this._element = this._getTemplate();
-        this._image = this._element.querySelector(".elements__element-image");
-        this._deleteButton = this._element.querySelector(".elements__element-delete");
-        this._likeButton = this._element.querySelector(".elements__element-like");
         this._openPopup = openPopup;
     }
 
     _getTemplate() {
-        const cardElement = this._cardElementLi.cloneNode(true);
+        const cardElement = this._cardTemplate.content.querySelector('.elements__element').cloneNode(true);
+        this._image = cardElement.querySelector(".elements__element-image");
+        this._deleteButton = cardElement.querySelector(".elements__element-delete");
+        this._likeButton = cardElement.querySelector(".elements__element-like");
         return cardElement;
     }
 
@@ -37,6 +36,9 @@ export default class Card {
     }
 
     generateCard() {
+
+        this._element = this._getTemplate();
+
         this._image.src = this._link;
         this._image.alt = this._name;
 

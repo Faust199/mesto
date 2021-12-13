@@ -22,10 +22,13 @@ const linkInput = document.getElementById('card-image-link');
 
 function setInitialCards(initialCards) {
     initialCards.forEach((item)=> {
-        const card = new Card(item, document.getElementById('element-card-li').content.querySelector('.elements__element'), cardImagePopup, openPopup);
-        const cardElement = card.generateCard();
-        cardList.prepend(cardElement);
+        cardList.prepend(generateCard(item));
     });
+}
+
+function generateCard(item) {
+    const card = new Card(item, document.getElementById('element-card-li'), cardImagePopup, openPopup);
+    return card.generateCard();
 }
 
 setInitialCards(initialCards);
@@ -98,9 +101,7 @@ cardForm.addEventListener('submit',(event)=> {
                     link: linkInput.value
     };
 
-    const card = new Card(item, document.getElementById('element-card-li').content.querySelector('.elements__element'), cardImagePopup, openPopup);
-    const cardElement = card.generateCard();
-    cardList.prepend(cardElement);
+    cardList.prepend(generateCard(item));
 
     cardForm.reset();
 
