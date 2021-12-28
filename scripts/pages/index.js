@@ -1,6 +1,7 @@
-import Card from "./Card.js"
-import FormValidator from "./FormValidator.js"
-import {initialCards, config} from "./data.js"
+import Card from "../components/Card.js";
+import Section from "../components/Section.js";
+import FormValidator from "../FormValidator.js";
+import {initialCards, config, cardListSelector} from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.getElementById('popup-profile');
@@ -15,23 +16,22 @@ const addCardOpenButton = document.querySelector('.profile__add-button');
 const nameTitle = document.querySelector('.profile__name');
 const descriptionParagraph = document.querySelector('.profile__description');
 const imageCloseButton = document.getElementById('close-button-image');
-const cardList = document.querySelector('.elements__element-list');
 const cardImagePopup = document.getElementById('popup-image');
 const nameInput = document.getElementById('card-title');
 const linkInput = document.getElementById('card-image-link');
 
-function setInitialCards(initialCards) {
-    initialCards.forEach((item)=> {
-        cardList.prepend(generateCard(item));
-    });
-}
+const defaultCardList = new Section({items:initialCards, renderer:(item) => {
+        const cardElement = generateCard(item);
+        defaultCardList.addItem(cardElement);
+    }
+}, cardListSelector);
+
+defaultCardList.renderItems();
 
 function generateCard(item) {
     const card = new Card(item, 'element-card-li', cardImagePopup, openPopup);
     return card.generateCard();
 }
-
-setInitialCards(initialCards);
 
 function configurateValidation() {
 
@@ -101,7 +101,8 @@ cardForm.addEventListener('submit',(event)=> {
                     link: linkInput.value
     };
 
-    cardList.prepend(generateCard(item));
+    const cardElement = generateCard(item);
+    defaultCardList.addItem(cardElement);
 
     cardForm.reset();
 
