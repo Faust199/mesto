@@ -33,6 +33,11 @@ export const cardImagePopupID = 'popup-image';
 export const popupClassSelector = 'popup';
 export const popupOpenClassSelector = 'popup_is-open';
 export const cardTemplateSelector = 'element-card-li';
+export const formSelector = '.popup__form';
+export const formInputSelector = '.popup__input';
+export const popupProfileSelector = 'popup-profile';
+export const popupCardSelector = 'popup-card';
+
 
 export const config = {
     formSelector: '.popup__form',
