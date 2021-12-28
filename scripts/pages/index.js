@@ -1,7 +1,7 @@
 import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import FormValidator from "../FormValidator.js";
-import {initialCards, config, cardListSelector} from "../utils/constants.js";
+import {initialCards, config, cardListSelector, cardTemplateSelector} from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.getElementById('popup-profile');
@@ -15,8 +15,6 @@ const profileFormInputDescription = document.getElementById("profile-description
 const addCardOpenButton = document.querySelector('.profile__add-button');
 const nameTitle = document.querySelector('.profile__name');
 const descriptionParagraph = document.querySelector('.profile__description');
-const imageCloseButton = document.getElementById('close-button-image');
-const cardImagePopup = document.getElementById('popup-image');
 const nameInput = document.getElementById('card-title');
 const linkInput = document.getElementById('card-image-link');
 
@@ -29,7 +27,7 @@ const defaultCardList = new Section({items:initialCards, renderer:(item) => {
 defaultCardList.renderItems();
 
 function generateCard(item) {
-    const card = new Card(item, 'element-card-li', cardImagePopup, openPopup);
+    const card = new Card(item, cardTemplateSelector);
     return card.generateCard();
 }
 
@@ -109,14 +107,8 @@ cardForm.addEventListener('submit',(event)=> {
     closePopup(cardPopup);
 });
 
-imageCloseButton.addEventListener('click', ()=>{
-    closePopup(cardImagePopup);
-});
-
 profilePopup.addEventListener('click', popupOverlayClickHandler);
 
 cardPopup.addEventListener('click', popupOverlayClickHandler);
-
-cardImagePopup.addEventListener('click', popupOverlayClickHandler);
 
 configurateValidation();

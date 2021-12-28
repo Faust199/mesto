@@ -1,11 +1,11 @@
-export default class Card {
+import PopupWithImage from "./PopupWithImage.js";
+import { cardImagePopupID } from "../utils/constants.js"
 
-    constructor(data, cardTemplateSelector, cardImagePopup, openPopup) {
+export default class Card {
+    constructor(data, cardTemplateSelector) {
         this._link = data.link;
         this._name = data.name;
         this._cardTemplateSelector = cardTemplateSelector;
-        this._cardImagePopup = cardImagePopup;
-        this._openPopup = openPopup;
     }
 
     _getTemplate() {
@@ -18,12 +18,9 @@ export default class Card {
 
     _setEventListeners() {
         this._image.addEventListener('click', ()=> {
-            this._openPopup(this._cardImagePopup);
-            const popupContentImage = this._cardImagePopup.querySelector('.popup__image');
-            popupContentImage.src = this._link;
-            popupContentImage.alt = this._name;
-            const  popupTitle = this._cardImagePopup.querySelector('.popup__caption');
-            popupTitle.textContent = this._name;
+            const popup = new PopupWithImage({imageSrc:this._link, title:this._name}, cardImagePopupID);
+            popup.setEventListeners();
+            popup.open();
         });
 
         this._deleteButton.addEventListener('click', ()=> {

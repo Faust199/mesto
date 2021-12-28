@@ -26,6 +26,13 @@ export const initialCards = [
 ];
 
 export const cardListSelector = '.elements__element-list';
+export const popupCloseButtonSelector = '.popup__close-button';
+export const popupImageSelector = '.popup__image';
+export const popupCaptionSelector = '.popup__caption';
+export const cardImagePopupID = 'popup-image';
+export const popupClassSelector = 'popup';
+export const popupOpenClassSelector = 'popup_is-open';
+export const cardTemplateSelector = 'element-card-li';
 
 export const config = {
     formSelector: '.popup__form',
