@@ -37,7 +37,8 @@ export const formSelector = '.popup__form';
 export const formInputSelector = '.popup__input';
 export const popupProfileSelector = 'popup-profile';
 export const popupCardSelector = 'popup-card';
-
+export const profileNameSelector = '.profile__name';
+export const profileDescriptionSelector = '.profile__description';
 
 export const config = {
     formSelector: '.popup__form',

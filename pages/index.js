@@ -3,6 +3,7 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import UserInfo from "../components/UserInfo.js";
 
 import {
     initialCards,
@@ -11,13 +12,15 @@ import {
     cardTemplateSelector,
     popupProfileSelector,
     popupCardSelector,
-    cardImagePopupID
+    cardImagePopupID,
+    profileNameSelector,
+    profileDescriptionSelector
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardOpenButton = document.querySelector('.profile__add-button');
-const nameTitle = document.querySelector('.profile__name');
-const descriptionParagraph = document.querySelector('.profile__description');
+
+const userInfo = new UserInfo({profileNameSelector:profileNameSelector, profileDescriptionSelector:profileDescriptionSelector});
 
 const defaultCardList = new Section({items:initialCards, renderer:(item) => {
         const cardElement = generateCard(item);
@@ -38,8 +41,7 @@ function generateCard(item) {
 }
 
 const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
-        nameTitle.textContent = formData.name;
-        descriptionParagraph.textContent = formData.description;
+        userInfo.setUserInfo({name:formData.name, description:formData.description});
         profilePopup.close();
     }, popupSelector:popupProfileSelector});
 
