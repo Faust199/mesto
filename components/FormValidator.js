@@ -1,4 +1,4 @@
-import {formSelector} from "./utils/constants.js"
+import {formSelector} from "../utils/constants.js"
 
 export default class FormValidator {
     constructor(config, popupSelector, ) {

@@ -1,8 +1,18 @@
 import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import FormValidator from "../FormValidator.js";
-import {initialCards, config, cardListSelector, cardTemplateSelector, popupProfileSelector, popupCardSelector} from "../utils/constants.js";
+import FormValidator from "../components/FormValidator.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+
+import {
+    initialCards,
+    config,
+    cardListSelector,
+    cardTemplateSelector,
+    popupProfileSelector,
+    popupCardSelector,
+    cardImagePopupID
+} from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardOpenButton = document.querySelector('.profile__add-button');
@@ -18,7 +28,12 @@ const defaultCardList = new Section({items:initialCards, renderer:(item) => {
 defaultCardList.renderItems();
 
 function generateCard(item) {
-    const card = new Card(item, cardTemplateSelector);
+    const card = new Card({data:item, cardTemplateSelector:cardTemplateSelector, handleCardClick:(imageData) => {
+        const popup = new PopupWithImage({imageSrc:imageData.imageSrc, title:imageData.title}, cardImagePopupID);
+        popup.setEventListeners();
+        popup.open();
+        }
+    });
     return card.generateCard();
 }
 

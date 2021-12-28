@@ -1,11 +1,9 @@
-import PopupWithImage from "./PopupWithImage.js";
-import { cardImagePopupID } from "../utils/constants.js"
-
 export default class Card {
-    constructor(data, cardTemplateSelector) {
+    constructor({data, cardTemplateSelector, handleCardClick}) {
         this._link = data.link;
         this._name = data.name;
         this._cardTemplateSelector = cardTemplateSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -18,9 +16,8 @@ export default class Card {
 
     _setEventListeners() {
         this._image.addEventListener('click', ()=> {
-            const popup = new PopupWithImage({imageSrc:this._link, title:this._name}, cardImagePopupID);
-            popup.setEventListeners();
-            popup.open();
+            const popupImageData = {imageSrc:this._link, title:this._name};
+            this._handleCardClick(popupImageData);
         });
 
         this._deleteButton.addEventListener('click', ()=> {
