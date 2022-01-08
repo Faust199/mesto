@@ -23,6 +23,9 @@ const addCardOpenButton = document.querySelector('.profile__add-button');
 
 const userInfo = new UserInfo({profileNameSelector:profileNameSelector, profileDescriptionSelector:profileDescriptionSelector});
 
+const cardImagePopup = new PopupWithImage(cardImagePopupID);
+cardImagePopup.setEventListeners();
+
 const defaultCardList = new Section({items:initialCards, renderer:(item) => {
         const cardElement = generateCard(item);
         defaultCardList.addItem(cardElement);
@@ -33,9 +36,8 @@ defaultCardList.renderItems();
 
 function generateCard(item) {
     const card = new Card({data:item, cardTemplateSelector:cardTemplateSelector, handleCardClick:(imageData) => {
-        const popup = new PopupWithImage({imageSrc:imageData.imageSrc, title:imageData.title}, cardImagePopupID);
-        popup.setEventListeners();
-        popup.open();
+            cardImagePopup.setImageInfo(imageData);
+            cardImagePopup.open();
         }
     });
     return card.generateCard();
@@ -70,6 +72,7 @@ function configurateValidation() {
 }
 
 profileEditButton.addEventListener('click', ()=> {
+    profilePopup.setInfo(userInfo.getUserInfo());
     profilePopup.open();
 });
 
