@@ -7,8 +7,10 @@
     line-height: 22px;
     border: 0;
     color: #FFFFFF;
-    margin: 0 0 37px 0;
     padding: 0;
+    position: absolute;
+    left: 36px;
+    bottom: 40px;
 }
 
 .popup__submit-button:hover {
@@ -19,7 +21,8 @@
     .popup__submit-button {
         width: 238px;
         height: 46px;
-        margin-bottom: 35px;
+        bottom: 20px;
+        left: 22px;
         font-size: 14px;
         line-height: 17px;
     }
