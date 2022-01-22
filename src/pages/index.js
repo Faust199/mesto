@@ -1,4 +1,5 @@
 import Card from "../components/Card.js";
+import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
@@ -7,32 +8,49 @@ import UserInfo from "../components/UserInfo.js";
 import "./index.css";
 
 import {
-    initialCards,
+    apiOptions,
     config,
     cardListSelector,
     cardTemplateSelector,
     popupProfileSelector,
     popupCardSelector,
     cardImagePopupID,
-    profileNameSelector,
-    profileDescriptionSelector
+    profileSelector,
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardOpenButton = document.querySelector('.profile__add-button');
 
-const userInfo = new UserInfo({profileNameSelector:profileNameSelector, profileDescriptionSelector:profileDescriptionSelector});
+const api = new Api(apiOptions);
+let userInfo;
+
+api.getInitialCards()
+    .then(res => {
+        const defaultCardList = new Section({items:res, renderer:(item) => {
+                const cardElement = generateCard(item);
+                defaultCardList.addItem(cardElement);
+            }
+        }, cardListSelector);
+
+        defaultCardList.renderItems();
+    })
+    .catch(err => {
+        console.log(`initial cards error ${err}`);
+    });
+
+api.getUser()
+    .then(res => {
+        userInfo = new UserInfo(res);
+        userInfo.generateUser();
+    })
+    .catch(err => {
+        console.log(`get user error ${err}`);
+    });
+
+
 
 const cardImagePopup = new PopupWithImage(cardImagePopupID);
 cardImagePopup.setEventListeners();
-
-const defaultCardList = new Section({items:initialCards, renderer:(item) => {
-        const cardElement = generateCard(item);
-        defaultCardList.addItem(cardElement);
-    }
-}, cardListSelector);
-
-defaultCardList.renderItems();
 
 function generateCard(item) {
     const card = new Card({data:item, cardTemplateSelector:cardTemplateSelector, handleCardClick:(imageData) => {
@@ -44,8 +62,25 @@ function generateCard(item) {
 }
 
 const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
-        userInfo.setUserInfo({name:formData.name, description:formData.description});
-        profilePopup.close();
+    const userUpdateOptions = {
+        method: 'PATCH',
+        headers: {
+            authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: formData.name,
+            about: formData.description
+        })
+    };
+    api.updateUser(userUpdateOptions)
+        .then(res => {
+            userInfo.setUserInfo(res);
+            profilePopup.close();
+        })
+        .catch(err => {
+            console.log(`update user error ${err}`);
+        });
     }, popupSelector:popupProfileSelector});
 
 profilePopup.setEventListeners();
