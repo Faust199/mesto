@@ -1,0 +1,13 @@
+.profile__avatar-edit {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    padding-left: 45px;
+}
+
+@media screen and (max-width: 980px) {
+    .profile__avatar-edit {
+        padding-left: 10px;
+        padding-top: 45px;
+    }
+}

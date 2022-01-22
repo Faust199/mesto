@@ -16,6 +16,7 @@ import {
     popupCardSelector,
     cardImagePopupID,
     popupCardDeleteSelector,
+    popupAvatarSelector
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -43,7 +44,31 @@ function getInitialCards() {
 
 api.getUser()
     .then(res => {
-        userInfo = new UserInfo(res);
+        userInfo = new UserInfo(res,
+            () => {
+                const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
+                    const avatarUpdateOptions = {
+                        method: 'PATCH',
+                        headers: {
+                            authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            avatar: formData.url
+                        })
+                    }
+                    api.setUserAvatar(avatarUpdateOptions)
+                        .then(res => {
+                            userInfo.updateUserAvatar(res)
+                            avatarPopup.close();
+                        })
+                        .catch(err => {
+                            console.log(`get avatar error ${err}`);
+                        });
+                    },popupSelector:popupAvatarSelector});
+                avatarPopup.setEventListeners();
+                avatarPopup.open();
+            });
         userInfo.generateUser();
         getInitialCards();
     })

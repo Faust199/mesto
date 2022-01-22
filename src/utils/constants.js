@@ -10,7 +10,9 @@ export const formSelector = '.popup__form';
 export const formInputSelector = '.popup__input';
 export const popupProfileSelector = 'popup-profile';
 export const popupCardDeleteSelector = 'popup-card_delete';
+export const popupAvatarSelector = 'popup-avatar';
 export const popupCardSelector = 'popup-card';
+
 export const apiOptions = {
     headers: {
         authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61'

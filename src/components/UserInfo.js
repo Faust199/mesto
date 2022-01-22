@@ -1,5 +1,5 @@
 export default class UserInfo {
-    constructor({name, about, avatar, _id}) {
+    constructor({name, about, avatar, _id}, handleAvatarClick) {
         this._name = name;
         this._about = about;
         this._avatar = avatar;
@@ -7,6 +7,9 @@ export default class UserInfo {
         this._nameLabel = document.querySelector(".profile__name");
         this._aboutLabel = document.querySelector(".profile__description");
         this._avatarImage = document.querySelector(".profile__avatar");
+        this._avatarEditImage = document.querySelector(".profile__avatar-edit");
+        this._avatarEditImage.style.visibility = 'hidden';
+        this._handleAvatarClick = handleAvatarClick;
     }
 
     generateUser() {
@@ -14,10 +17,30 @@ export default class UserInfo {
         this._aboutLabel.textContent = this._about;
         this._avatarImage.src = this._avatar;
         this._avatarImage.alt = this._name;
+
+        this._setEventListeners();
+    }
+
+    _setEventListeners() {
+        this._avatarImage.addEventListener('click', ()=> {
+             this._handleAvatarClick();
+        });
+
+        this._avatarImage.addEventListener('mouseover', ()=> {
+            this._avatarEditImage.style.visibility = 'visible';
+        });
+
+        this._avatarImage.addEventListener('mouseout', ()=> {
+            this._avatarEditImage.style.visibility = 'hidden';
+        });
     }
 
     getUserId() {
         return this._id;
+    }
+
+    updateUserAvatar(user) {
+        this._avatarImage.src = user.avatar;
     }
 
     getUserInfo() {

@@ -6,6 +6,10 @@
     padding: 0;
 }
 
+.profile__avatar:hover {
+    opacity: 0.8;
+}
+
 @media screen and (max-width: 980px) {
     .profile__avatar {
         margin-left: auto;

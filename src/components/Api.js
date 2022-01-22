@@ -88,4 +88,18 @@ export default class Api {
             });
     }
 
+    setUserAvatar(userAvatarOptions) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, userAvatarOptions)
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }).then(user => {
+                return user;
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
 }
