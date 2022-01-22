@@ -21,6 +21,8 @@ export default class PopupWithForm extends Popup {
 
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
+            this._submitButton = this._form.querySelector('.popup__submit-button');
+            this._submitButton.textContent = "Сохранение ...";
             this._handleFormSubmit(this._getInputValues());
 
             this._form.reset();
