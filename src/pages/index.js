@@ -15,7 +15,7 @@ import {
     popupProfileSelector,
     popupCardSelector,
     cardImagePopupID,
-    profileSelector,
+    popupCardDeleteSelector,
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -54,10 +54,19 @@ const cardImagePopup = new PopupWithImage(cardImagePopupID);
 cardImagePopup.setEventListeners();
 
 function generateCard(item) {
-    const card = new Card({data:item, cardTemplateSelector:cardTemplateSelector, handleCardClick:(imageData) => {
+    const card = new Card({data:item, cardTemplateSelector:cardTemplateSelector,
+        handleCardClick:(imageData) => {
             cardImagePopup.setImageInfo(imageData);
             cardImagePopup.open();
-        }
+        },
+        handleDeleteCardClick:(cardElement) => {
+        const cardDeletePopup = new PopupWithForm({handleFormSubmit:() => {
+            cardElement.remove();
+            cardDeletePopup.close();
+            }, popupSelector:popupCardDeleteSelector});
+        cardDeletePopup.setEventListeners();
+        cardDeletePopup.open();
+    }
     });
     return card.generateCard();
 }
