@@ -18,6 +18,20 @@ export default class Api {
             });
     }
 
+    addCard(cardAddOptions) {
+        return fetch(`${this._baseUrl}/cards`, cardAddOptions)
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }).then(card => {
+                return card;
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
     getUser() {
         return fetch(`${this._baseUrl}/users/me`, this._options)
             .then(res => {

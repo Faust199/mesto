@@ -23,14 +23,15 @@ const addCardOpenButton = document.querySelector('.profile__add-button');
 
 const api = new Api(apiOptions);
 let userInfo;
+let defaultCardList;
 
 api.getInitialCards()
     .then(res => {
-        const defaultCardList = new Section({items:res, renderer:(item) => {
-                const cardElement = generateCard(item);
-                defaultCardList.addItem(cardElement);
-            }
-        }, cardListSelector);
+         defaultCardList = new Section({items:res, renderer:(item) => {
+             const cardElement = generateCard(item);
+             defaultCardList.addItem(cardElement);
+         }
+         }, cardListSelector);
 
         defaultCardList.renderItems();
     })
@@ -86,13 +87,27 @@ const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
 profilePopup.setEventListeners();
 
 const cardPopup = new PopupWithForm({handleFormSubmit:(formData) => {
-        const item = {
-            name: formData.title,
-            link: formData.url
+        const cardAddOptions = {
+            method: 'POST',
+            headers: {
+                authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: formData.title,
+                link: formData.url
+            })
         };
-        const cardElement = generateCard(item);
-        defaultCardList.addItem(cardElement);
-        cardPopup.close();
+
+        api.addCard(cardAddOptions)
+            .then(res => {
+                const cardElement = generateCard(res);
+                defaultCardList.addItem(cardElement);
+                cardPopup.close();
+            })
+            .catch(err => {
+                console.log(`add card error ${err}`);
+            });
     }, popupSelector:popupCardSelector});
 
 cardPopup.setEventListeners();
