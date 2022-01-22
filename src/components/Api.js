@@ -32,6 +32,34 @@ export default class Api {
             });
     }
 
+    removeCard(cardRemoveOptions, cardId) {
+        return fetch(`${this._baseUrl}/cards/${cardId}`, cardRemoveOptions)
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }).then(card => {
+                return card;
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    likeOrDislikeCard(cardLikeOptions, cardId) {
+        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, cardLikeOptions)
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }).then(card => {
+                return card;
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
     getUser() {
         return fetch(`${this._baseUrl}/users/me`, this._options)
             .then(res => {
