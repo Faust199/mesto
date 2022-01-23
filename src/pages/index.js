@@ -16,13 +16,15 @@ import {
     popupCardSelector,
     cardImagePopupID,
     popupCardDeleteSelector,
-    popupAvatarSelector
+    popupAvatarSelector,
+    baseUrl,
+    token
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardOpenButton = document.querySelector('.profile__add-button');
 
-const api = new Api(apiOptions);
+const api = new Api(baseUrl, token);
 let userInfo;
 let defaultCardList;
 
@@ -34,7 +36,6 @@ function getInitialCards() {
                     defaultCardList.addItem(cardElement);
                 }
             }, cardListSelector);
-
             defaultCardList.renderItems();
         })
         .catch(err => {
@@ -47,17 +48,7 @@ api.getUser()
         userInfo = new UserInfo(res,
             () => {
                 const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
-                    const avatarUpdateOptions = {
-                        method: 'PATCH',
-                        headers: {
-                            authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            avatar: formData.url
-                        })
-                    }
-                    api.setUserAvatar(avatarUpdateOptions)
+                    api.setUserAvatar(formData.url)
                         .then(res => {
                             userInfo.updateUserAvatar(res)
                             avatarPopup.close();
@@ -89,14 +80,7 @@ function generateCard(item) {
         },
         handleDeleteCardClick:(cardElement) => {
         const cardDeletePopup = new PopupWithForm({handleFormSubmit:() => {
-            const cardRemoveOptions = {
-                method: 'DELETE',
-                headers: {
-                    authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
-                    'Content-Type': 'application/json'
-                }
-            }
-            api.removeCard(cardRemoveOptions, card.getCardId())
+            api.removeCard(card.getCardId())
                 .then(res => {
                     cardElement.remove();
                     cardDeletePopup.close();
@@ -110,25 +94,7 @@ function generateCard(item) {
         cardDeletePopup.open();
     },
         handleLikeOrDislikeCard:() => {
-        let likeOrDislikeOptions;
-        if (!card.cardIsLiked()) {
-            likeOrDislikeOptions = {
-                method: 'PUT',
-                headers: {
-                    authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
-                    'Content-Type': 'application/json'
-                }
-            }
-        } else {
-            likeOrDislikeOptions = {
-                method: 'DELETE',
-                headers: {
-                    authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
-                    'Content-Type': 'application/json'
-                }
-            }
-        }
-        api.likeOrDislikeCard(likeOrDislikeOptions, card.getCardId())
+        api.likeOrDislikeCard(card.cardIsLiked(), card.getCardId())
             .then(res => {
                 card.updateCardLikes(res);
             })
@@ -141,18 +107,7 @@ function generateCard(item) {
 }
 
 const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
-    const userUpdateOptions = {
-        method: 'PATCH',
-        headers: {
-            authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: formData.name,
-            about: formData.description
-        })
-    };
-    api.updateUser(userUpdateOptions)
+    api.updateUser(formData.name, formData.description)
         .then(res => {
             userInfo.setUserInfo(res);
             profilePopup.close();
@@ -165,19 +120,7 @@ const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
 profilePopup.setEventListeners();
 
 const cardPopup = new PopupWithForm({handleFormSubmit:(formData) => {
-        const cardAddOptions = {
-            method: 'POST',
-            headers: {
-                authorization: '40597a19-fb7a-4964-88bb-61fbfd8dee61',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: formData.title,
-                link: formData.url
-            })
-        };
-
-        api.addCard(cardAddOptions)
+        api.addCard(formData.title, formData.url)
             .then(res => {
                 const cardElement = generateCard(res);
                 defaultCardList.addItem(cardElement);
