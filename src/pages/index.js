@@ -93,8 +93,8 @@ function generateCard(item) {
         cardDeletePopup.setEventListeners();
         cardDeletePopup.open();
     },
-        handleLikeOrDislikeCard:() => {
-        api.likeOrDislikeCard(card.cardIsLiked(), card.getCardId())
+        handleToggleLike:() => {
+        api.toggleLike(card.cardIsLiked(), card.getCardId())
             .then(res => {
                 card.updateCardLikes(res);
             })

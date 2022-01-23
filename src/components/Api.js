@@ -43,7 +43,7 @@ export default class Api {
         }).then(this._parseResponse);
     }
 
-    likeOrDislikeCard(isLike, cardId) {
+    toggleLike(isLike, cardId) {
         let isLikeOptions;
         if (!isLike) {
             isLikeOptions = {
