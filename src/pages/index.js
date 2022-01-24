@@ -9,6 +9,7 @@ import "./index.css";
 
 import {
     formSelector,
+    formInputSelector,
     config,
     cardListSelector,
     cardTemplateSelector,
@@ -18,7 +19,12 @@ import {
     popupCardDeleteSelector,
     popupAvatarSelector,
     baseUrl,
-    token
+    token,
+    popupCloseButtonSelector,
+    popupClassSelector,
+    popupOpenClassSelector,
+    popupImageSelector,
+    popupCaptionSelector
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -56,7 +62,7 @@ api.getUser()
                         .catch(err => {
                             console.log(`get avatar error ${err}`);
                         });
-                    },popupSelector:popupAvatarSelector});
+                    },popupSelector:popupAvatarSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
                 avatarPopup.setEventListeners();
                 avatarPopup.open();
             });
@@ -69,7 +75,7 @@ api.getUser()
 
 
 
-const cardImagePopup = new PopupWithImage(cardImagePopupID);
+const cardImagePopup = new PopupWithImage(cardImagePopupID, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, popupImageSelector, popupCaptionSelector);
 cardImagePopup.setEventListeners();
 
 function generateCard(item) {
@@ -89,7 +95,7 @@ function generateCard(item) {
                     cardDeletePopup.close();
                     console.log(`get card delete error ${err}`);
                 });
-            },popupSelector:popupCardDeleteSelector});
+            },popupSelector:popupCardDeleteSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
         cardDeletePopup.setEventListeners();
         cardDeletePopup.open();
     },
@@ -115,7 +121,7 @@ const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
         .catch(err => {
             console.log(`update user error ${err}`);
         });
-    }, popupSelector:popupProfileSelector});
+    }, popupSelector:popupProfileSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
 
 profilePopup.setEventListeners();
 
@@ -129,7 +135,7 @@ const cardPopup = new PopupWithForm({handleFormSubmit:(formData) => {
             .catch(err => {
                 console.log(`add card error ${err}`);
             });
-    }, popupSelector:popupCardSelector});
+    }, popupSelector:popupCardSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
 
 cardPopup.setEventListeners();
 

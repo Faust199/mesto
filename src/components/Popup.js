@@ -1,18 +1,19 @@
-import { popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector } from "../utils/constants.js";
-
 export default class Popup {
-    constructor(popupSelector) {
+    constructor(popupSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector) {
         this._popup = document.getElementById(popupSelector);
         this._closeButton = this._popup.querySelector(popupCloseButtonSelector);
+        this._popupClassSelector = popupClassSelector;
+        this._popupOpenClassSelector = popupOpenClassSelector;
+        this._handleEscClose = this._handleEscClose.bind(this);
     }
 
     open() {
-        document.addEventListener('keydown', this._handleEscClose.bind(this));
-        this._popup.classList.add(popupOpenClassSelector);
+        document.addEventListener('keydown', this._handleEscClose);
+        this._popup.classList.add(this._popupOpenClassSelector);
     }
 
     close() {
-        this._popup.classList.remove(popupOpenClassSelector);
+        this._popup.classList.remove(this._popupOpenClassSelector);
         document.removeEventListener('keydown', this._handleEscClose);
     }
 
@@ -22,8 +23,8 @@ export default class Popup {
         });
 
         this._popup.addEventListener('click', (event) => {
-            if (event.target.classList.contains(popupClassSelector)) {
-                this.close(event.target);
+            if (event.target.classList.contains(this._popupClassSelector )) {
+                this.close();
             }
         });
     }
