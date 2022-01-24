@@ -1,7 +1,5 @@
-import {formSelector} from "../utils/constants.js"
-
 export default class FormValidator {
-    constructor(config, popupSelector, ) {
+    constructor(config, popupSelector, formSelector) {
         this._config = config;
         this._form = document.getElementById(popupSelector).querySelector(formSelector);
         this._submitButton = this._form.querySelector(config.submitButtonSelector);

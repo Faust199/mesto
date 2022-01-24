@@ -8,7 +8,7 @@ import UserInfo from "../components/UserInfo.js";
 import "./index.css";
 
 import {
-    apiOptions,
+    formSelector,
     config,
     cardListSelector,
     cardTemplateSelector,
@@ -135,10 +135,10 @@ cardPopup.setEventListeners();
 
 function configurateValidation() {
 
-    const formValidation = new FormValidator(config, popupProfileSelector);
+    const formValidation = new FormValidator(config, popupProfileSelector, formSelector);
     formValidation.enableValidation();
 
-    const cardFormValidation = new FormValidator(config, popupCardSelector);
+    const cardFormValidation = new FormValidator(config, popupCardSelector, formSelector);
     cardFormValidation.enableValidation();
 }
 
