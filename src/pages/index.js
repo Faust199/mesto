@@ -41,6 +41,7 @@ let defaultCardList = new Section({renderer:(item) => {
 }, cardListSelector);
 
 const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
+        avatarPopup.renderLoading("Сохранение...");
         api.setUserAvatar(formData.url)
             .then(res => {
                 userInfo.updateUser(res)
@@ -48,6 +49,8 @@ const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
             })
             .catch(err => {
                 console.log(`get avatar error ${err}`);
+            }).finally(() => {
+                avatarPopup.renderLoading("Сохранить");
             });
     },popupSelector:popupAvatarSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
 avatarPopup.setEventListeners();
@@ -65,7 +68,7 @@ function getInitialCards() {
 api.getUser()
     .then(res => {
         userInfo.updateUser(res)
-        userInfo.getAvatarImage().addEventListener('click', ()=> {
+        userInfo.getAvatarContainer().addEventListener('click', ()=> {
             avatarPopup.open();
         });
         userInfo.generateUser();
@@ -115,6 +118,7 @@ function generateCard(item) {
 }
 
 const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
+    profilePopup.renderLoading("Сохранение...");
     api.updateUser(formData.name, formData.description)
         .then(res => {
             userInfo.setUserInfo(res);
@@ -122,12 +126,16 @@ const profilePopup = new PopupWithForm({handleFormSubmit:(formData) => {
         })
         .catch(err => {
             console.log(`update user error ${err}`);
+        })
+        .finally(() =>{
+            profilePopup.renderLoading("Сохранить");
         });
     }, popupSelector:popupProfileSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
 
 profilePopup.setEventListeners();
 
 const cardPopup = new PopupWithForm({handleFormSubmit:(formData) => {
+        cardPopup.renderLoading("Создание...");
         api.addCard(formData.title, formData.url)
             .then(res => {
                 const cardElement = generateCard(res);
@@ -136,8 +144,11 @@ const cardPopup = new PopupWithForm({handleFormSubmit:(formData) => {
             })
             .catch(err => {
                 console.log(`add card error ${err}`);
+            })
+            .finally(()=>{
+                cardPopup.renderLoading("Создать");
             });
-    }, popupSelector:popupCardSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
+        }, popupSelector:popupCardSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
 
 cardPopup.setEventListeners();
 

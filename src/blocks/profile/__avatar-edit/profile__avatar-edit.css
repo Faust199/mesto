@@ -2,12 +2,12 @@
     position: absolute;
     width: 26px;
     height: 26px;
-    padding-left: 45px;
+    left: 45px;
+    opacity: 0;
 }
 
 @media screen and (max-width: 980px) {
     .profile__avatar-edit {
-        padding-left: 10px;
-        padding-top: 45px;
+        top: 37px;
     }
 }

@@ -6,6 +6,8 @@ export default class UserInfo {
         this._nameLabel = document.querySelector(".profile__name");
         this._aboutLabel = document.querySelector(".profile__description");
         this._avatarImage = document.querySelector(".profile__avatar");
+        this._avatarEditImage = document.querySelector(".profile__avatar-edit");
+        this._avatarContainer = document.querySelector(".profile__avatar-container");
     }
 
     generateUser() {
@@ -13,8 +15,12 @@ export default class UserInfo {
         this._aboutLabel.textContent = this._about;
     }
 
-    getAvatarImage() {
-        return this._avatarImage;
+    getAvatarContainer() {
+        return this._avatarContainer;
+    }
+
+    getAvatarEditImage() {
+        return this._avatarEditImage;
     }
 
     getUserId() {
