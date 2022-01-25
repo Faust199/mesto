@@ -54,7 +54,7 @@ export default class Card {
         });
 
         this._deleteButton.addEventListener('click', ()=> {
-            this._handleDeleteCardClick(this._element);
+            this._handleDeleteCardClick();
         });
 
         this._likeButton.addEventListener('click', ()=> {
@@ -91,5 +91,9 @@ export default class Card {
         this._setIsLiked();
         this._toggleLikeButton();
         this._likeCountParagraph.textContent = this._likes.length;
+    }
+
+    removeCard() {
+        this._element.remove();
     }
 }

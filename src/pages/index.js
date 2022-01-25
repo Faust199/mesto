@@ -31,17 +31,30 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardOpenButton = document.querySelector('.profile__add-button');
 
 const api = new Api(baseUrl, token);
-let userInfo;
-let defaultCardList;
+let deletedCard;
+let userInfo = new UserInfo();
+
+let defaultCardList = new Section({renderer:(item) => {
+        const cardElement = generateCard(item);
+        defaultCardList.appendItem(cardElement);
+    }
+}, cardListSelector);
+
+const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
+        api.setUserAvatar(formData.url)
+            .then(res => {
+                userInfo.updateUser(res)
+                avatarPopup.close();
+            })
+            .catch(err => {
+                console.log(`get avatar error ${err}`);
+            });
+    },popupSelector:popupAvatarSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
+avatarPopup.setEventListeners();
 
 function getInitialCards() {
     api.getInitialCards()
         .then(res => {
-            defaultCardList = new Section({renderer:(item) => {
-                    const cardElement = generateCard(item);
-                    defaultCardList.appendItem(cardElement);
-                }
-            }, cardListSelector);
             defaultCardList.renderItems(res);
         })
         .catch(err => {
@@ -51,21 +64,10 @@ function getInitialCards() {
 
 api.getUser()
     .then(res => {
-        userInfo = new UserInfo(res,
-            () => {
-                const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
-                    api.setUserAvatar(formData.url)
-                        .then(res => {
-                            userInfo.updateUserAvatar(res)
-                            avatarPopup.close();
-                        })
-                        .catch(err => {
-                            console.log(`get avatar error ${err}`);
-                        });
-                    },popupSelector:popupAvatarSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
-                avatarPopup.setEventListeners();
-                avatarPopup.open();
-            });
+        userInfo.updateUser(res)
+        userInfo.getAvatarImage().addEventListener('click', ()=> {
+            avatarPopup.open();
+        });
         userInfo.generateUser();
         getInitialCards();
     })
@@ -73,10 +75,21 @@ api.getUser()
         console.log(`get user error ${err}`);
     });
 
-
-
 const cardImagePopup = new PopupWithImage(cardImagePopupID, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, popupImageSelector, popupCaptionSelector);
 cardImagePopup.setEventListeners();
+
+const cardDeletePopup = new PopupWithForm({handleFormSubmit:() => {
+        api.removeCard(deletedCard.getCardId())
+            .then(res => {
+                deletedCard.removeCard();
+                cardDeletePopup.close();
+            })
+            .catch(err => {
+                console.log(`get card delete error ${err}`);
+            });
+    },popupSelector:popupCardDeleteSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
+cardDeletePopup.setEventListeners();
+
 
 function generateCard(item) {
     const card = new Card({data:item, cardTemplateSelector:cardTemplateSelector, userId:userInfo.getUserId(),
@@ -85,18 +98,7 @@ function generateCard(item) {
             cardImagePopup.open();
         },
         handleDeleteCardClick:(cardElement) => {
-        const cardDeletePopup = new PopupWithForm({handleFormSubmit:() => {
-            api.removeCard(card.getCardId())
-                .then(res => {
-                    cardElement.remove();
-                    cardDeletePopup.close();
-                })
-                .catch(err => {
-                    cardDeletePopup.close();
-                    console.log(`get card delete error ${err}`);
-                });
-            },popupSelector:popupCardDeleteSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
-        cardDeletePopup.setEventListeners();
+        deletedCard = card;
         cardDeletePopup.open();
     },
         handleToggleLike:() => {
