@@ -37,12 +37,12 @@ let defaultCardList;
 function getInitialCards() {
     api.getInitialCards()
         .then(res => {
-            defaultCardList = new Section({items:res, renderer:(item) => {
+            defaultCardList = new Section({renderer:(item) => {
                     const cardElement = generateCard(item);
-                    defaultCardList.addItem(cardElement);
+                    defaultCardList.appendItem(cardElement);
                 }
             }, cardListSelector);
-            defaultCardList.renderItems();
+            defaultCardList.renderItems(res);
         })
         .catch(err => {
             console.log(`initial cards error ${err}`);
@@ -129,7 +129,7 @@ const cardPopup = new PopupWithForm({handleFormSubmit:(formData) => {
         api.addCard(formData.title, formData.url)
             .then(res => {
                 const cardElement = generateCard(res);
-                defaultCardList.addItem(cardElement);
+                defaultCardList.prependItem(cardElement);
                 cardPopup.close();
             })
             .catch(err => {
