@@ -164,6 +164,9 @@ function configurateValidation() {
 
     const cardFormValidation = new FormValidator(config, popupCardSelector, formSelector);
     cardFormValidation.enableValidation();
+
+    const avatarFormValidation = new FormValidator(config, popupAvatarSelector, formSelector);
+    avatarFormValidation.enableValidation();
 }
 
 profileEditButton.addEventListener('click', ()=> {

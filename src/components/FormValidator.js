@@ -27,7 +27,6 @@ export default class FormValidator {
 
     _setInputsEventListeners() {
         const inputArray = Array.from(this._form.querySelectorAll(this._config.inputSelector));
-
         inputArray.forEach((input) => {
             input.addEventListener('input', () => {
                 this._checkInputValidity(input);
