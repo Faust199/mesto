@@ -36,9 +36,13 @@ const addCardOpenButton = document.querySelector('.profile__add-button');
 
 const api = new Api(baseUrl, token);
 let deletedCard;
-let userInfo = new UserInfo(profileNameSelector, profileAboutSelector, profileAvatarSelector, profileAvatarContainerSelector);
 
-let defaultCardList = new Section({renderer:(item) => {
+const userInfo = new UserInfo(profileNameSelector, profileAboutSelector, profileAvatarSelector, profileAvatarContainerSelector);
+userInfo.getAvatarContainer().addEventListener('click', ()=> {
+    avatarPopup.open();
+});
+
+const defaultCardList = new Section({renderer:(item) => {
         const cardElement = generateCard(item);
         defaultCardList.appendItem(cardElement);
     }
@@ -72,9 +76,6 @@ function getInitialCards() {
 api.getUser()
     .then(res => {
         userInfo.setUserInfo(res)
-        userInfo.getAvatarContainer().addEventListener('click', ()=> {
-            avatarPopup.open();
-        });
         userInfo.generateUser();
         getInitialCards();
     })
