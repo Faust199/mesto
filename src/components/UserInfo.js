@@ -1,13 +1,12 @@
 export default class UserInfo {
-    constructor() {
+    constructor(profileNameSelector, profileAboutSelector, profileAvatarSelector, profileAvatarContainerSelector) {
         this._name = "name";
         this._about = "about";
         this._id = "_id";
-        this._nameLabel = document.querySelector(".profile__name");
-        this._aboutLabel = document.querySelector(".profile__description");
-        this._avatarImage = document.querySelector(".profile__avatar");
-        this._avatarEditImage = document.querySelector(".profile__avatar-edit");
-        this._avatarContainer = document.querySelector(".profile__avatar-container");
+        this._nameLabel = document.querySelector(profileNameSelector);
+        this._aboutLabel = document.querySelector(profileAboutSelector);
+        this._avatarImage = document.querySelector(profileAvatarSelector);
+        this._avatarContainer = document.querySelector(profileAvatarContainerSelector);
     }
 
     generateUser() {
@@ -19,20 +18,8 @@ export default class UserInfo {
         return this._avatarContainer;
     }
 
-    getAvatarEditImage() {
-        return this._avatarEditImage;
-    }
-
     getUserId() {
         return this._id;
-    }
-
-    updateUser(user) {
-        this._name = user.name;
-        this._avatarImage.src = user.avatar;
-        this._avatarImage.alt = this._name;
-        this._about = user.about;
-        this._id = user._id;
     }
 
     getUserInfo() {
@@ -41,8 +28,13 @@ export default class UserInfo {
         return userProfile;
     }
 
-    setUserInfo({name, about}) {
-        this._nameLabel.textContent = name;
-        this._aboutLabel.textContent = about;
+    setUserInfo(user) {
+        this._name = user.name;
+        this._avatarImage.src = user.avatar;
+        this._avatarImage.alt = this._name;
+        this._about = user.about;
+        this._id = user._id;
+        this._nameLabel.textContent = this._name;
+        this._aboutLabel.textContent = this._about;
     }
 }

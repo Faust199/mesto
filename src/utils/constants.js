@@ -14,6 +14,10 @@ export const popupAvatarSelector = 'popup-avatar';
 export const popupCardSelector = 'popup-card';
 export const baseUrl = "https://mesto.nomoreparties.co/v1/cohort-34";
 export const token = '40597a19-fb7a-4964-88bb-61fbfd8dee61';
+export const profileNameSelector = ".profile__name";
+export const profileAboutSelector = ".profile__description";
+export const profileAvatarSelector = ".profile__avatar";
+export const profileAvatarContainerSelector = ".profile__avatar-container";
 
 export const config = {
     formSelector: '.popup__form',

@@ -44,23 +44,17 @@ export default class Api {
     }
 
     toggleLike(isLike, cardId) {
-        let isLikeOptions;
+        const isLikeOptions = {
+            method: '',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            }
+        };
         if (!isLike) {
-            isLikeOptions = {
-                method: 'PUT',
-                headers: {
-                    authorization: this._token,
-                    'Content-Type': 'application/json'
-                }
-            }
+            isLikeOptions.method = 'PUT';
         } else {
-            isLikeOptions = {
-                method: 'DELETE',
-                headers: {
-                    authorization: this._token,
-                    'Content-Type': 'application/json'
-                }
-            }
+            isLikeOptions.method = 'DELETE';
         }
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, isLikeOptions)
             .then(this._parseResponse);

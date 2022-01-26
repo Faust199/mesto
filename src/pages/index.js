@@ -24,7 +24,11 @@ import {
     popupClassSelector,
     popupOpenClassSelector,
     popupImageSelector,
-    popupCaptionSelector
+    popupCaptionSelector,
+    profileNameSelector,
+    profileAboutSelector,
+    profileAvatarSelector,
+    profileAvatarContainerSelector
 } from "../utils/constants.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -32,7 +36,7 @@ const addCardOpenButton = document.querySelector('.profile__add-button');
 
 const api = new Api(baseUrl, token);
 let deletedCard;
-let userInfo = new UserInfo();
+let userInfo = new UserInfo(profileNameSelector, profileAboutSelector, profileAvatarSelector, profileAvatarContainerSelector);
 
 let defaultCardList = new Section({renderer:(item) => {
         const cardElement = generateCard(item);
@@ -44,7 +48,7 @@ const avatarPopup = new PopupWithForm({handleFormSubmit:(formData) => {
         avatarPopup.renderLoading("Сохранение...");
         api.setUserAvatar(formData.url)
             .then(res => {
-                userInfo.updateUser(res)
+                userInfo.setUserInfo(res)
                 avatarPopup.close();
             })
             .catch(err => {
@@ -67,7 +71,7 @@ function getInitialCards() {
 
 api.getUser()
     .then(res => {
-        userInfo.updateUser(res)
+        userInfo.setUserInfo(res)
         userInfo.getAvatarContainer().addEventListener('click', ()=> {
             avatarPopup.open();
         });

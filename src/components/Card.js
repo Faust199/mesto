@@ -18,11 +18,6 @@ export default class Card {
         this._image = cardElement.querySelector(".elements__element-image");
         this._deleteButton = cardElement.querySelector(".elements__element-delete");
         this._likeButton = cardElement.querySelector(".elements__element-like");
-
-        if (this._owner._id != this._userId) {
-            this._deleteButton.remove();
-        }
-
         this._likeCountParagraph = cardElement.querySelector(".elements__element-like_number");
         return cardElement;
     }
@@ -65,6 +60,10 @@ export default class Card {
     generateCard() {
 
         this._element = this._getTemplate();
+
+        if (this._owner._id != this._userId) {
+            this._deleteButton.remove();
+        }
 
         this._image.src = this._link;
         this._image.alt = this._name;
