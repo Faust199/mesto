@@ -2,6 +2,7 @@ import Card from "../components/Card.js";
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
@@ -35,7 +36,6 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardOpenButton = document.querySelector('.profile__add-button');
 
 const api = new Api(baseUrl, token);
-let deletedCard;
 
 const userInfo = new UserInfo(profileNameSelector, profileAboutSelector, profileAvatarSelector, profileAvatarContainerSelector);
 userInfo.getAvatarContainer().addEventListener('click', ()=> {
@@ -86,16 +86,16 @@ api.getUser()
 const cardImagePopup = new PopupWithImage(cardImagePopupID, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, popupImageSelector, popupCaptionSelector);
 cardImagePopup.setEventListeners();
 
-const cardDeletePopup = new PopupWithForm({handleFormSubmit:() => {
-        api.removeCard(deletedCard.getCardId())
+const cardDeletePopup = new PopupWithConfirmation({handleFormSubmit:(card) => {
+        api.removeCard(card._id)
             .then(res => {
-                deletedCard.removeCard();
+                card.removeCard();
                 cardDeletePopup.close();
             })
             .catch(err => {
                 console.log(`get card delete error ${err}`);
             });
-    },popupSelector:popupCardDeleteSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector, formInputSelector});
+    },popupSelector:popupCardDeleteSelector, popupCloseButtonSelector, popupClassSelector, popupOpenClassSelector, formSelector});
 cardDeletePopup.setEventListeners();
 
 
@@ -106,8 +106,7 @@ function generateCard(item) {
             cardImagePopup.open();
         },
         handleDeleteCardClick:(cardElement) => {
-        deletedCard = card;
-        cardDeletePopup.open();
+        cardDeletePopup.open(card);
     },
         handleToggleLike:() => {
         api.toggleLike(card.cardIsLiked(), card.getCardId())
